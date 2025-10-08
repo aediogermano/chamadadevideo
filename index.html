@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Demo de Chamada — Black Rat</title>
+  <title>Carol - Chamada de Vídeo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -25,16 +25,16 @@
   <!-- Modal aviso (obrigatório) -->
   <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6">
     <div class="max-w-lg w-full glass rounded-2xl p-6 border border-white/10">
-      <h1 class="text-2xl font-bold mb-2">DEMONSTRAÇÃO — Chamada com Black Rat</h1>
+      <h1 class="text-2xl font-bold mb-2">AO VIVO AGORA — Chamada com Carol</h1>
       <p class="text-white/80 text-sm leading-relaxed">
-        Esta página exibe uma simulação de chamada (vídeo pré-gravado). Não é uma comunicação ao vivo.
+        Goze ao vivo comigo amor.
       </p>
       <label class="flex items-start gap-3 mt-4">
         <input id="consent" type="checkbox" class="mt-1 accent-pink-500">
-        <span class="text-white/80 text-sm">Entendo e quero visualizar a demonstração.</span>
+        <span class="text-white/80 text-sm">Quero Gozar.</span>
       </label>
       <div class="mt-5 flex gap-3">
-        <button id="enterDemo" class="flex-1 bg-pink-600 hover:bg-pink-500 transition rounded-xl py-3 font-semibold">Ver Demo</button>
+        <button id="enterDemo" class="flex-1 bg-pink-600 hover:bg-pink-500 transition rounded-xl py-3 font-semibold">Entrar ao vivo</button>
         <button id="leave" class="px-4 py-3 rounded-xl border border-white/20 hover:bg-white/5 transition">Sair</button>
       </div>
     </div>
@@ -46,7 +46,7 @@
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-pink-600 grid place-items-center font-bold">BR</div>
         <div>
-          <div class="font-bold">Black Rat — Demo</div>
+          <div class="font-bold">Carol — Ao Vivo</div>
           <div id="status" class="text-xs text-white/60">Status: aguardando</div>
         </div>
       </div>
@@ -60,7 +60,7 @@
   <!-- Conteúdo -->
   <main class="max-w-6xl mx-auto px-4 py-6 grid md:grid-cols-3 gap-6">
     <section class="md:col-span-2 relative rounded-2xl overflow-hidden border border-white/10 glass">
-      <div class="absolute inset-0 watermark">DEMONSTRAÇÃO • BLACK RAT</div>
+      <div class="absolute inset-0 watermark">Carol • AO VIVO</div>
 
       <!-- Vídeo demo: troque src pelo seu arquivo -->
       <video id="remoteVideo" class="w-full aspect-video bg-black object-cover" autoplay muted playsinline loop>
@@ -71,8 +71,8 @@
       <div class="absolute bottom-4 left-1/2 -translate-x-1/2">
         <div class="glass rounded-2xl px-4 py-2 border border-white/10 flex items-center gap-3">
           <button id="toggleMute" class="px-3 py-2 rounded-lg bg-white/10">Desmutar</button>
-          <button id="endCall" class="px-3 py-2 rounded-lg bg-red-600">Encerrar Demo</button>
-          <div class="text-sm text-white/60">Black Rat está disponível para demo</div>
+          <button id="endCall" class="px-3 py-2 rounded-lg bg-red-600">Encerrar Chamada</button>
+          <div class="text-sm text-white/60">Carol está disponível para você</div>
         </div>
       </div>
     </section>
@@ -94,9 +94,9 @@
       </div>
 
       <div class="glass rounded-2xl border border-white/10 overflow-hidden">
-        <div class="p-3 border-b border-white/10 font-semibold">Chat (DEMO)</div>
+        <div class="p-3 border-b border-white/10 font-semibold">Chat</div>
         <div id="chat" class="h-56 overflow-y-auto p-3 space-y-3 text-sm">
-          <div class="text-white/60 text-center text-xs">Mensagens de exemplo — DEMO</div>
+          <div class="text-white/60 text-center text-xs">Fala Comigo Amor</div>
         </div>
         <div class="p-3 flex gap-2 border-t border-white/10">
           <input id="chatInput" type="text" placeholder="Digite (demo)…" class="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2"/>
@@ -107,7 +107,7 @@
   </main>
 
   <footer class="max-w-6xl mx-auto px-4 pb-8 text-white/50 text-xs">
-    Demonstração criada para apresentação — não é comunicação ao vivo.
+    Aqui você realiza seus desejos — Carol ao vivo.
   </footer>
 
   <script>
@@ -118,10 +118,10 @@
     const modal = document.getElementById('modal');
     const consent = document.getElementById('consent');
     document.getElementById('enterDemo').addEventListener('click', () => {
-      if (!consent.checked) { alert('Marque que entendeu ser uma simulação.'); return; }
+      if (!consent.checked) { alert('Marque Quero Gozar Para Prosseguir.'); return; }
       modal.style.display = 'none';
       startTimer();
-      setStatus('Conectado (DEMO)');
+      setStatus('Conectado');
     });
     document.getElementById('leave').addEventListener('click', () => { window.history.length>1?history.back():window.close(); });
 
@@ -143,9 +143,9 @@
 
     document.getElementById('endCall').addEventListener('click', ()=> {
       if (timerId) clearInterval(timerId);
-      setStatus('Demo encerrada');
+      setStatus('Chamada encerrada');
       remoteVideo.pause();
-      alert('Demonstração encerrada.');
+      alert('Chamada encerrada.');
     });
 
     // WhatsApp CTA (abre em nova aba)
@@ -200,10 +200,14 @@
       chatBox.appendChild(wrap);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-    setTimeout(()=>pushMsg('Oi! Esta é uma demonstração da Black Rat 😊'),1200);
-    setTimeout(()=>pushMsg('Vídeo pré-gravado — não é uma chamada real.'),2800);
+    setTimeout(()=>pushMsg('Oi bb… tava lembrando de você hoje 😈'),1200);
+    setTimeout(()=>pushMsg('Cê sempre me trata diferente dos outros… eu gosto disso 🥺'),2800);
+    setTimeout(()=>pushMsg('Queria te mostrar uma coisa que eu comprei hoje… mas só se prometer que vai se comportar hehe'),1200);
+    setTimeout(()=>pushMsg('Tô ligando a cam, fica só pra você… não salva, hein? 😏'),1200);
+    setTimeout(()=>pushMsg('Tá gostando, safadinho? Vem brincar comigo aqui… mas antes, me mostra que vale a pena continuar 😘'),1200);
     sendBtn.addEventListener('click', ()=>{ const v=chatInput.value.trim(); if(!v) return; pushMsg(v,true); chatInput.value=''; setTimeout(()=>pushMsg('Resposta automática (DEMO).'),800); });
     chatInput.addEventListener('keydown', e=>{ if(e.key==='Enter') sendBtn.click(); });
   </script>
 </body>
 </html>
+
