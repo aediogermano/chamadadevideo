@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Demo - Chamada de Vídeo (WhatsApp style)</title>
+  <style>
+    :root{
+      --bg:#0b8a5b;
+      --panel:#0f5132;
+      --muted:#bff0d9;
+      --accent:#25D366;
+      --danger:#ff3b30;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#056b45 0%, #0b8a5b 100%);}
+    .container{
+      max-width:420px;
+      margin:40px auto;
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.06));
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 12px 30px rgba(0,0,0,0.45);
+      position:relative;
+      border:1px solid rgba(255,255,255,0.04);
+    }
+
+    /* top bar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      background:linear-gradient(90deg, rgba(0,0,0,0.08), rgba(255,255,255,0.02));
+    }
+    .avatar{
+      width:44px;height:44px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,0.06);
+      background:linear-gradient(45deg,#6be6b6,#1aa86f);
+      display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px;
+    }
+    .title{
+      flex:1;color:white;
+      line-height:1;
+    }
+    .title .name{display:block;font-weight:700;}
+    .title .status{display:block;font-size:12px;color:var(--muted);margin-top:2px;}
+
+    /* video area */
+    .video-wrap{
+      background:black;
+      position:relative;
+      height:520px;
+    }
+    .video-wrap video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter:brightness(0.96) saturate(1.06);
+    }
+
+    /* small self-preview */
+    .self-preview{
+      position:absolute;
+      right:14px;
+      bottom:84px;
+      width:110px;height:160px;border-radius:12px;overflow:hidden;
+      border:3px solid rgba(0,0,0,0.4);
+      background:#222;box-shadow:0 6px 18px rgba(0,0,0,0.45);
+    }
+    .self-preview video{width:100%;height:100%;object-fit:cover;}
+
+    /* controls */
+    .controls{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      align-items:center;
+      padding:14px;
+      background:linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.02));
+    }
+    .btn{
+      background:#111;
+      color:white;
+      padding:10px 16px;border-radius:999px;border:0;font-weight:700;cursor:pointer;
+      box-shadow:0 6px 18px rgba(0,0,0,0.4);
+    }
+    .btn.end{
+      background:var(--danger);
+      width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;
+      box-shadow:0 10px 30px rgba(255,59,48,0.25);
+    }
+
+    /* demo badge */
+    .demo-badge{
+      position:absolute;
+      left:12px;top:12px;
+      background:rgba(0,0,0,0.6);
+      color:#fff;padding:6px 10px;border-radius:8px;font-weight:700;font-size:12px;
+      display:flex;gap:8px;align-items:center;z-index:20;
+      border:2px solid rgba(255,255,255,0.04);
+    }
+    .demo-badge .warn{color:var(--danger);font-weight:900;margin-left:6px;}
+
+    /* big warning overlay */
+    .overlay-warning{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:180px;
+      background:rgba(255,255,255,0.95);
+      color:#111;padding:10px 16px;border-radius:10px;font-weight:800;
+      box-shadow:0 10px 30px rgba(0,0,0,0.25);
+      z-index:30;
+      display:flex;align-items:center;gap:10px;font-size:13px;
+    }
+    .overlay-warning small{font-weight:600;color:#444;font-size:11px;display:block;text-align:center;margin-top:4px;}
+
+    /* watermark "DEMO" */
+    .watermark{
+      position:absolute;left:8px;bottom:12px;color:rgba(255,255,255,0.22);font-size:12px;font-weight:800;z-index:15;
+    }
+
+    /* responsive */
+    @media (max-width:520px){
+      .container{margin:18px;max-width:100%}
+      .video-wrap{height:420px}
+      .self-preview{width:88px;height:128px;bottom:90px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="region" aria-label="Demo de chamada de vídeo">
+    <div class="topbar">
+      <div class="avatar" aria-hidden="true">C</div>
+      <div class="title">
+        <span class="name">Carol</span>
+        <span class="status">AO VIVO <span style="color:#ff3b30">●</span> 2:18</span>
+      </div>
+      <div style="color:var(--muted);font-size:12px;font-weight:700">WhatsApp Demo</div>
+    </div>
+
+    <div class="video-wrap">
+      <div class="demo-badge">DEMO <span class="warn">NÃO É UMA CHAMADA REAL</span></div>
+
+      <!-- Vídeo principal: troque o src abaixo por seu arquivo (MP4). Deve ter permissão de uso. -->
+      <video id="modelVideo" playsinline autoplay muted loop crossorigin="anonymous">
+        <source src="VIDEO_URL_HERE" type="video/mp4">
+        <!-- fallback -->
+      </video>
+
+      <!-- self preview (opcional) -->
+      <div class="self-preview" id="selfPreview" aria-hidden="true">
+        <video id="selfVid" playsinline muted loop>
+          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="overlay-warning" role="note" aria-live="polite">
+        <div style="color:#c00">⚠ DEMONSTRAÇÃO</div>
+        <div style="opacity:0.8">Esta página é apenas uma simulação visual — NÃO é uma chamada ao vivo.</div>
+      </div>
+
+      <div class="watermark">SIMULAÇÃO · PROVA · DEMO</div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="togglePreview">Alternar Mini-preview</button>
+      <button class="btn" id="pauseResume">Pausar / Retomar</button>
+      <button class="btn end" id="endCall" title="Encerrar (demo)">✕</button>
+    </div>
+  </div>
+
+  <script>
+    const modelVideo = document.getElementById('modelVideo');
+    const selfVid = document.getElementById('selfVid');
+    const preview = document.getElementById('selfPreview');
+    const toggleBtn = document.getElementById('togglePreview');
+    const pauseBtn = document.getElementById('pauseResume');
+    const endBtn = document.getElementById('endCall');
+
+    // controles simples
+    toggleBtn.addEventListener('click', ()=> {
+      preview.style.display = (preview.style.display === 'none') ? 'block' : 'none';
+    });
+
+    pauseBtn.addEventListener('click', ()=> {
+      if(modelVideo.paused){
+        modelVideo.play().catch(()=>{});
+        selfVid.play().catch(()=>{});
+        pauseBtn.textContent = 'Pausar / Retomar';
+      } else {
+        modelVideo.pause();
+        selfVid.pause();
+        pauseBtn.textContent = 'Retomado';
+      }
+    });
+
+    endBtn.addEventListener('click', ()=> {
+      // comportamento de demo ao "encerrar" — redireciona para página de fim
+      document.body.innerHTML = `
+        <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#071a12,#042615);color:#fff;font-family:Inter,Arial,sans-serif">
+          <div style="text-align:center;max-width:420px;padding:28px;border-radius:12px;background:rgba(0,0,0,0.45);box-shadow:0 20px 60px rgba(0,0,0,0.6)">
+            <h2 style="margin:0 0 6px">Chamada encerrada</h2>
+            <p style="opacity:0.85;margin:10px 0 18px">Obrigado pelo teste. Esta era uma simulação — nada foi transmitido.</p>
+            <a href="#" onclick="location.reload()" style="display:inline-block;padding:10px 18px;background:#25D366;color:#072b18;border-radius:999px;text-decoration:none;font-weight:800">Voltar ao demo</a>
+          </div>
+        </div>`;
+    });
+
+    // start muted (autoplay friendly)
+    modelVideo.muted = true;
+    modelVideo.play().catch(()=>{});
+    selfVid.muted = true;
+    selfVid.play().catch(()=>{});
+  </script>
+</body>
+</html>
