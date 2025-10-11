@@ -91,7 +91,11 @@
         </div>
       </div>
     </div>
-    <div id="chat" class="absolute bottom-24 left-4 right-4 md:left-auto md:right-6 max-w-sm bg-white/5 rounded-xl p-4 space-y-2 text-sm text-white/90">
+
+    <div id="chat" class="absolute bottom-28 left-4 right-4 md:left-auto md:right-6 max-w-sm bg-white/5 rounded-xl p-4 space-y-2 text-sm text-white/90 overflow-y-auto max-h-64"></div>
+    <div class="absolute bottom-4 left-4 right-4 md:left-auto md:right-6 max-w-sm flex gap-2">
+      <input id="chatInput" type="text" placeholder="Digite algo..." class="flex-1 px-3 py-2 rounded-lg bg-white/10 text-white placeholder-white/50 text-sm">
+      <button id="chatSend" class="bg-pink-600 px-4 py-2 rounded-lg text-sm font-bold">Enviar</button>
     </div>
   </main>
 
@@ -100,6 +104,8 @@
     const modal = document.getElementById('modal');
     const consent = document.getElementById('consent');
     const chatBox = document.getElementById('chat');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
 
     document.getElementById('enterDemo').addEventListener('click', () => {
       if (!consent.checked) {
@@ -115,19 +121,29 @@
       player.setVolume(1);
       player.play();
 
-      // Mensagens rápidas iniciais
       setTimeout(() => pushMsg('Oi amor, tava te esperando... 😘'), 1000);
       setTimeout(() => pushMsg('Já liguei a câmera só pra você... 👀'), 2000);
       setTimeout(() => pushMsg('Não demora pra mostrar o que tem aí não... 😈'), 3000);
     });
 
-    function pushMsg(msg) {
+    function pushMsg(msg, isUser = false) {
       const el = document.createElement('div');
       el.textContent = msg;
-      el.className = 'bg-white/10 px-3 py-2 rounded-lg';
+      el.className = 'px-3 py-2 rounded-lg max-w-[80%] ' + (isUser ? 'bg-pink-600 ml-auto' : 'bg-white/10');
       chatBox.appendChild(el);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
+
+    chatSend.addEventListener('click', () => {
+      const msg = chatInput.value.trim();
+      if (!msg) return;
+      pushMsg(msg, true);
+      chatInput.value = '';
+    });
+
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') chatSend.click();
+    });
 
     function startTimer() {
       let sec = 0;
@@ -135,7 +151,8 @@
         sec++;
         const min = String(Math.floor(sec / 60)).padStart(2, '0');
         const s = String(sec % 60).padStart(2, '0');
-        document.getElementById('timer').textContent = `${min}:${s}`;
+        const timer = document.getElementById('timer');
+        if (timer) timer.textContent = `${min}:${s}`;
       }, 1000);
     }
 
