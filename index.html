@@ -127,11 +127,17 @@
     const modal = document.getElementById('modal');
     const consent = document.getElementById('consent');
     document.getElementById('enterDemo').addEventListener('click', () => {
-      if (!consent.checked) { alert('Marque Quero Gozar Para Prosseguir.'); return; }
-      modal.style.display = 'none';
-      startTimer();
-      setStatus('Conectado');
-    });
+  if (!consent.checked) { alert('Marque Quero Gozar Para Prosseguir.'); return; }
+  modal.style.display = 'none';
+  startTimer();
+  setStatus('Conectado');
+
+  // Desmutar vídeo do Vimeo após interação
+  const iframe = document.getElementById('vimeoPlayer');
+  const player = new Vimeo.Player(iframe);
+  player.setVolume(1); // volume máximo
+});
+
     document.getElementById('leave').addEventListener('click', () => { window.history.length>1?history.back():window.close(); });
 
     // Timer & status
@@ -219,6 +225,7 @@
   </script>
 </body>
 </html>
+
 
 
 
