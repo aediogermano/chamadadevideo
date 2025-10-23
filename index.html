@@ -18,13 +18,16 @@
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
 
-    fbq('init', '1279775006873413'); // TROCA PELO ID REAL
-    fbq('track', 'PageView');
+    fbq('init', '1279775006873413');
 
     setTimeout(() => {
-      if (!localStorage.getItem('purchase_tracked') && typeof fbq === 'function') {
-        fbq('track', 'Purchase', {value: 20.00, currency: 'BRL'});
-        localStorage.setItem('purchase_tracked', 'true');
+      if (typeof fbq === 'function') {
+        fbq('track', 'PageView');
+
+        if (!localStorage.getItem('purchase_tracked')) {
+          fbq('track', 'Purchase', {value: 20.00, currency: 'BRL'});
+          localStorage.setItem('purchase_tracked', 'true');
+        }
       }
     }, 1500);
   </script>
