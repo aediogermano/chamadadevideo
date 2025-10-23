@@ -21,10 +21,12 @@
     fbq('init', '1279775006873413'); // TROCA PELO ID REAL
     fbq('track', 'PageView');
 
-    if (!localStorage.getItem('purchase_tracked')) {
-      fbq('track', 'Purchase', {value: 20.00, currency: 'BRL'});
-      localStorage.setItem('purchase_tracked', 'true');
-    }
+    setTimeout(() => {
+      if (!localStorage.getItem('purchase_tracked') && typeof fbq === 'function') {
+        fbq('track', 'Purchase', {value: 20.00, currency: 'BRL'});
+        localStorage.setItem('purchase_tracked', 'true');
+      }
+    }, 1500);
   </script>
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1279775006873413&ev=PageView&noscript=1"
